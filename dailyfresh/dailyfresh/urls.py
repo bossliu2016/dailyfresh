@@ -18,6 +18,5 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^user/',include('users.urls')),
-    url(r'^',include('booktest.urls')),
+    url(r'^user/',include('df_user.urls')),
 ]
