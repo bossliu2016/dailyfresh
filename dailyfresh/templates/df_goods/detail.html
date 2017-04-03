@@ -1,0 +1,66 @@
+{%extends 'df_goods/base.html'%}
+
+{%block head%}
+<script>
+	function add() {
+	    num=parseFloat($('.num_show').val());
+	    $('.num_show').val(num+1);
+	    $('.num_show').blur();
+    }
+    function minus() {
+	    num=parseFloat($('.num_show').val());
+	    $('.num_show').val(num-1);
+	    $('.num_show').blur();
+    }
+
+	$(function () {
+		$('.num_show').blur(function () {
+		    num=parseFloat($('.num_show').val());
+		    price=parseFloat($('#gprice').text());
+		    total=num*price;
+		    $('#gtotal').text(total.toFixed(2)+'元');
+        });
+    });
+</script>
+{%endblock head%}
+
+{%block detail%}
+	<div class="goods_detail_con clearfix">
+		<div class="goods_detail_pic fl"><img src="/static/{{g.gpic}}"></div>
+
+		<div class="goods_detail_list fr">
+			<h3>{{g.gtitle}}</h3>
+			<p>{{g.gsubtitle}}</p>
+			<div class="prize_bar">
+				<span class="show_pirze">¥<em id="gprice">{{g.gprice}}</em></span>
+				<span class="show_unit">单  位：{{g.gunit}}</span>
+			</div>
+			<div class="goods_num clearfix">
+				<div class="num_name fl">数 量：</div>
+				<div class="num_add fl">
+					<input type="text" class="num_show fl" value="1">
+					<a href="javascript:add();" class="add fr">+</a>
+					<a href="javascript:minus();" class="minus fr">-</a>
+				</div>
+			</div>
+			<div class="total">总价：<em id="gtotal">{{g.gprice}}元</em></div>
+			<div class="operate_btn">
+				<a href="javascript:;" class="buy_btn">立即购买</a>
+				<a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>
+			</div>
+		</div>
+	</div>
+{%endblock detail%}
+
+{%block detail2%}
+		<div class="r_wrap fr clearfix">
+			<ul class="detail_tab clearfix">
+				<li class="active">商品介绍</li>
+				<li>评论</li>
+			</ul>
+
+			<div class="tab_content">
+				{{g.gcontent|safe}}
+			</div>
+		</div>
+{%endblock detail2%}

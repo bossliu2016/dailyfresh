@@ -75,11 +75,13 @@ def info(request):
     user_email=UserInfo.objects.get(id=request.session['user_id']).uemail
     context={'title':'用户中心',
              'user_email':user_email,
-             'user_name':request.session['user_name']}
+             'user_name':request.session['user_name'],
+             'page_name':1}
     return render(request,'df_user/user_center_info.html',context)
 
 def order(request):
-    context={'title':'用户中心'}
+    context={'title':'用户中心',
+             'page_name':1}
     return render(request,'df_user/user_center_order.html',context)
 
 def site(request):
@@ -91,7 +93,8 @@ def site(request):
         user.uyoubian=post.get('uyoubian')
         user.uphone=post.get('uphone')
         user.save()
-    context={'title':'用户中心','user':user}
+    context={'title':'用户中心','user':user,
+             'page_name':1}
     return render(request,'df_user/user_center_site.html',context)
 
 
