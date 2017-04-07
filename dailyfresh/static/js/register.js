@@ -37,7 +37,6 @@ $(function(){
 		}
 	});
 
-
 	function check_user_name(){
 		var len = $('#user_name').val().length;
 		if(len<5||len>20)
@@ -75,7 +74,6 @@ $(function(){
 		}		
 	}
 
-
 	function check_cpwd(){
 		var pass = $('#pwd').val();
 		var cpass = $('#cpwd').val();
@@ -110,7 +108,6 @@ $(function(){
 		}
 
 	}
-
 
 	$('#reg_form').submit(function() {
 		check_user_name();

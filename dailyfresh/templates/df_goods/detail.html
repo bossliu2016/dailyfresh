@@ -7,18 +7,42 @@
 	    $('.num_show').val(num+1);
 	    $('.num_show').blur();
     }
+
     function minus() {
 	    num=parseFloat($('.num_show').val());
+	    if(num<=1){
+	        return;
+		}
 	    $('.num_show').val(num-1);
 	    $('.num_show').blur();
     }
 
 	$(function () {
 		$('.num_show').blur(function () {
-		    num=parseFloat($('.num_show').val());
+		    num=parseInt($('.num_show').val());
+		    if(num<=1){
+		        num=1;
+			}
 		    price=parseFloat($('#gprice').text());
 		    total=num*price;
+		    $('.num_show').val(num);
 		    $('#gtotal').text(total.toFixed(2)+'元');
+        });
+
+		//立即购买
+		$('#buy_btn').click(function () {
+			//判断是否登录，若未登录则提示先登录
+			if($('.login_btn').text().indexOf('登录')>=0){
+			    alert('请先登录后再购买');
+			    location.href='/user/login/';
+				return;
+			}
+			//添加到购物车
+			num=parseInt($('.num_show').val());
+			$.get('/cart/add{{g.id}}_'+num+'/',function (data) {
+			    //转向订单页面
+				location.href='/order/?cart_id='+data.cart_id;
+            });
         });
     });
 </script>
@@ -26,6 +50,7 @@
 
 {%block detail%}
 	<div class="goods_detail_con clearfix">
+		<input type="hidden" id="gid" value="{{g.id}}">
 		<div class="goods_detail_pic fl"><img src="/static/{{g.gpic}}"></div>
 
 		<div class="goods_detail_list fr">
@@ -45,7 +70,7 @@
 			</div>
 			<div class="total">总价：<em id="gtotal">{{g.gprice}}元</em></div>
 			<div class="operate_btn">
-				<a href="javascript:;" class="buy_btn">立即购买</a>
+				<a href="javascript:;" class="buy_btn" id="buy_btn">立即购买</a>
 				<a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>
 			</div>
 		</div>
@@ -63,4 +88,36 @@
 				{{g.gcontent|safe}}
 			</div>
 		</div>
+
+	<div class="add_jump"></div>
+
+	<script type="text/javascript">
+		var $add_x = $('#add_cart').offset().top;
+		var $add_y = $('#add_cart').offset().left;
+
+		var $to_x = $('#show_count').offset().top;
+		var $to_y = $('#show_count').offset().left;
+
+		$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})
+		$('#add_cart').click(function(){
+		    //判断是否登录，若未登录则提示先登录
+			if($('.login_btn').text().indexOf('登录')>=0){
+			    alert('请先登录后再购买');
+			    location.href='/user/login/';
+				return;
+			}
+		    //动画
+			$(".add_jump").stop().animate({
+				'left': $to_y+7,
+				'top': $to_x+7},
+				"fast", function() {
+					$(".add_jump").fadeOut('fast',function () {});
+			});
+			//异步
+			num=parseInt($('.num_show').val());
+			$.get('/cart/add{{g.id}}_'+num+'/',function (data) {
+				$('#show_count').text(data.count);
+            });
+		});
+	</script>
 {%endblock detail2%}

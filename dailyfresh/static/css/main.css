@@ -394,7 +394,7 @@ html,body{height:100%}
 .settlements .col03 b{color:#ff0000;font-size:14px;padding:0 5px;}
 
 .settlements .col04{width:14%;text-align:center;float:right;}
-.settlements .col04 a{display:block;height:78px;background-color:#ff3d3d;text-align:center;line-height:78px;color:#fff;font-size:24px}
+.settlements .col04 input{display:block;width:100%;height:78px;background-color:#ff3d3d;text-align:center;line-height:78px;color:#fff;font-size:24px}
 
 
 .common_title{width:1200px;margin:20px auto 0;font-size:14px;}
@@ -447,7 +447,8 @@ html,body{height:100%}
 .total_goods_count em,.total_goods_count b,.transit b,.total_pay b{font-size:14px;color:#ff4200;padding:0 5px;}
 
 .order_submit{width:1200px;margin:20px auto;}
-.order_submit a{width:160px;height:40px;line-height:40px;text-align:center;background-color:#47aa34;color:#fff;font-size:16px;display:block;float:right}
+.order_submit #order_btn{width:160px;height:40px;
+	line-height:40px;text-align:center;background-color:#47aa34;color:#fff;font-size:16px;display:block;float:right}
 
 
 .order_list_th{width:1198px;border:1px solid #ddd;background-color:#f7f7f7;margin:20px auto 0;}
