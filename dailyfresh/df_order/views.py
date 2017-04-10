@@ -50,11 +50,12 @@ def order_handle(request):
         order.user_id=uid
         # print order.oid
         order.odate=now
-        order.ototal=Decimal(request.POST.get('total'))
         order.oaddress=request.POST.get('address')
+        order.ototal=0
         order.save()
         #创建详单对象
         cart_ids1=[int(item) for item in cart_ids.split(',')]
+        total=0
         for id1 in cart_ids1:
             detail=OrderDetailInfo()
             detail.order=order
@@ -68,15 +69,21 @@ def order_handle(request):
                 goods.save()
                 # 完善详单信息
                 detail.goods_id=goods.id
-                detail.price=goods.gprice
-                detail.count=cart.count
+                price=goods.gprice
+                detail.price=price
+                count=cart.count
+                detail.count=count
                 detail.save()
+                total=total+price*count
                 #删除购物车数据
                 cart.delete()
             else:#如果库存小于购买数量
                 transaction.savepoint_rollback(tran_id)
                 return redirect('/cart/')
                 # return HttpResponse('no')
+        # 保存总价
+        order.ototal=total+10
+        order.save()
         transaction.savepoint_commit(tran_id)
     except Exception as e:
         print '================%s'%e
